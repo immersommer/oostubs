@@ -21,12 +21,42 @@
 
 #include "object/strbuf.h"
 
-class O_Stream
+class O_Stream : public Stringbuffer
 /* Add your code here */ 
 {
+private:
+	enum SYSTEM {BIN = 2, OCT = 8, DEC = 10, HEX = 16};
+	SYSTEM system;
+	const static char numbers[];
+	int number_to_char_array(unsigned long number, char *char_array, int length);
+
 public:
 	O_Stream(const O_Stream &copy) = delete; // prevent copying
 /* Add your code here */ 
+	O_Stream() : system(DEC){}
+	O_Stream& operator<< (unsigned char c);
+	O_Stream& operator<< (char c);
+
+	O_Stream& operator<< (unsigned short number);
+	O_Stream& operator<< (short number);
+	O_Stream& operator<< (unsigned int number);
+	O_Stream& operator<< (int number);
+	O_Stream& operator<< (unsigned long number);
+	O_Stream& operator<< (long number);
+
+	O_Stream& operator<< (void* pointer);
+
+	O_Stream& operator<< (char* text);
+
+	O_Stream& operator<< (O_Stream& (*fkt) (O_Stream&));
+
+/*The friend declaration appears in a class body and grants a function or another 
+class access to private and protected members of the class where the friend 
+declaration appears.*/
+friend O_Stream& bin (O_Stream& os);
+friend O_Stream& oct (O_Stream& os);
+friend O_Stream& dec (O_Stream& os);
+friend O_Stream& hex (O_Stream& os);
 };
 
 /*---------------------------------------------------------------------------*/
@@ -44,17 +74,22 @@ public:
 
 // ENDL: inserts a newline in the output and flushes the buffer
 /* Add your code here */ 
+O_Stream& endl (O_Stream& os);
 
 // BIN: selects the binary number system
 /* Add your code here */ 
+O_Stream& bin (O_Stream& os);
 
 // OCT: selects the octal number system
 /* Add your code here */ 
+O_Stream& oct (O_Stream& os);
 
 // DEC: selects the decimal number system
 /* Add your code here */ 
+O_Stream& dec (O_Stream& os);
 
 // HEX: selects the hexadecimal number system
 /* Add your code here */ 
+O_Stream& hex (O_Stream& os);
 
 #endif

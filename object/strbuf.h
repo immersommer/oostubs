@@ -17,9 +17,21 @@
 #define __strbuf_include__
 
 class Stringbuffer {
+//Private members are only accessible within the class defining them.
+//Protected members are accessible in the class that defines them and in classes that inherit from that class.
+//private:
+protected:
+	enum {BUFFER_SIZE = 1024};
+	int size;
+	char buffer[BUFFER_SIZE];
+
 public:
 	Stringbuffer(const Stringbuffer &copy) = delete; // prevent copying
 /* Add your code here */ 
+	//initialize variable
+	Stringbuffer() : size(0) {}
+	void put(char c);
+	virtual void flush() = 0;
 };
 
 #endif

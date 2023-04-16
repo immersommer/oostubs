@@ -13,6 +13,8 @@
 #include "machine/keyctrl.h"
  
 /* STATIC MEMBERS */
+#define DEFAULT_DELAY 3
+#define DEFAULT_SPEED 31
 
 unsigned char Keyboard_Controller::normal_tab[] = {
     0,   0,   '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 225, 39,   '\b',
@@ -235,10 +237,19 @@ Key Keyboard_Controller::key_hit()
 {
 	Key invalid; // not explicitly initialized Key objects are invalid
 /* Add your code here */ 
-/* Add your code here */ 
- 
-/* Add your code here */ 
-	return invalid;
+	//KEY_DECODED: Return value true means that the key is complete
+	bool decoded = false;
+	//char can be used in buffer
+	while(ctrl_port.inb() & outb){
+		code = data_port.inb();
+		decoded = key_decoded();
+	}
+	if(decoded) {
+		return gather;
+	} else{
+		return invalid;
+	}
+	
 }
 
 // REBOOT: Reboots the PC. Yes, in a PC the keyboard controller is
@@ -262,7 +273,7 @@ void Keyboard_Controller::reboot()
 }
 
 // SET_REPEAT_RATE: Function for setting the keyboard repeat rate. The
-//                  delay paraemter determines how long a key has to be
+//                  delay parameter determines how long a key has to be
 //                  pressed until automatic repetition starts. Accepted
 //                  values are between 0 (minimal waiting time) and 3
 //                  (maximal waiting time). speed determins how fast the
@@ -273,9 +284,28 @@ void Keyboard_Controller::reboot()
 void Keyboard_Controller::set_repeat_rate(int speed, int delay)
 {
 /* Add your code here */ 
- 
-/* Add your code here */ 
- 
+	int status;
+	//wait the last command
+	do{
+		status = ctrl_port.inb();
+	} while((status & inpb) != 0);
+	//send command
+	data_port.outb(kbd_cmd::set_speed);
+	//wait for reading the command
+	do{
+		status = ctrl_port.inb();
+	} while((status & outb) == 0);
+	//wait for ACK after sending command
+	while((data_port.inb() & kbd_reply::ack) != kbd_reply::ack);
+	//set parameter
+	//31=11111, 3=11
+	data_port.outb((speed & DEFAULT_SPEED) | (delay & DEFAULT_DELAY) << 5);
+	//wait for reading the command
+	do{
+		status = ctrl_port.inb();
+	} while((status & outb) == 0);
+	//wait for ACK after sending data
+	while((data_port.inb() & kbd_reply::ack) != kbd_reply::ack);
 }
 
 // SET_LED: sets or clears the specified LED
@@ -283,7 +313,27 @@ void Keyboard_Controller::set_repeat_rate(int speed, int delay)
 void Keyboard_Controller::set_led(char led, bool on)
 {
 /* Add your code here */ 
- 
-/* Add your code here */ 
- 
+	int status;
+	//wait the last command
+	do{
+		status = ctrl_port.inb();
+	} while((status & inpb) != 0);
+	//send command
+	data_port.outb(kbd_cmd::set_led);
+	//wait for ACK after sending command
+	while((data_port.inb() & kbd_reply::ack) != kbd_reply::ack);
+	//set/reset led
+	if(on){
+		leds = leds | led;
+	} else{
+		leds = leds & ~led;
+	}
+	//send data
+	data_port.outb(leds);
+	//wait for reading the command
+	do{
+		status = ctrl_port.inb();
+	} while((status & outb) == 0);
+	//wait for ACK after sending data
+	while((data_port.inb() & kbd_reply::ack) != kbd_reply::ack);
 }

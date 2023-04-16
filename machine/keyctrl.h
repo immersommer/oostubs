@@ -57,7 +57,7 @@ private:
 
 	// KEY_DECODED: Interprets the keyboard's make and break codes and
 	//              provides the ASCII code, the scan code, and information
-	//              which additional keys (like SHIFT or CTRL) were pressed.
+	//              which additial keys (like SHIFT or CTRL) were pressed.
 	//              Return value true means that the key is complete;
 	//              otherwise, some make or break code(s) are still missing.
 	bool key_decoded();
@@ -67,7 +67,7 @@ private:
 	void get_ascii_code();
 
 public:
-	// KEYBOARD_CONTROLLER: keyboard initialization: disables all LEDs and
+	// KEYBOARD_CTROLLER: keyboard initialization: disables all LEDs and
 	//                      sets the repeat rate to maximum.
 	Keyboard_Controller();
 
