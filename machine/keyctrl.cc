@@ -215,7 +215,7 @@ void Keyboard_Controller::get_ascii_code()
 // KEYBOARD_CONTROLLER: keyboard initialization: disables all LEDs and
 //                      sets the repeat rate to maximum.
 
-Keyboard_Controller::Keyboard_Controller() : ctrl_port(0x64), data_port(0x60)
+Keyboard_Controller::Keyboard_Controller() : ctrl_port(0x64), data_port(0x60), leds(0)
 {
 	// disable all LEDs (many PCs enable Num Lock during the boot process)
 	set_led(led::caps_lock, false);
