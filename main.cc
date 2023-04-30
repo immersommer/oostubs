@@ -68,16 +68,16 @@ static void test_key_ctrl(){
 
 	int caps_lock = 4, num_lock = 2, scroll_lock = 1; //led
 
-	keyctrl.set_led(caps_lock, 1);
-	keyctrl.set_led(num_lock, 1);
-	keyctrl.set_led(scroll_lock, 1);
+	keyctrl.set_led(caps_lock, 0);
+	keyctrl.set_led(num_lock, 0);
+	keyctrl.set_led(scroll_lock, 0);
 	keyctrl.set_repeat_rate(25, 2);
 
 	while(true){
 		key = keyctrl.key_hit();
 		if(key.valid()){
 			a = key.ascii();
-			cout << a << " ";
+			cout << a << " test_key_hit ";
 			cout.flush();
 		}
 	}

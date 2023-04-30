@@ -296,7 +296,7 @@ void Keyboard_Controller::set_repeat_rate(int speed, int delay)
 		status = ctrl_port.inb();
 	} while((status & outb) == 0);
 	//wait for ACK after sending command
-	while((data_port.inb() & kbd_reply::ack) != kbd_reply::ack);
+	while(data_port.inb() == kbd_reply::ack);
 	//set parameter
 	//31=11111, 3=11
 	data_port.outb((speed & DEFAULT_SPEED) | (delay & DEFAULT_DELAY) << 5);
@@ -305,7 +305,7 @@ void Keyboard_Controller::set_repeat_rate(int speed, int delay)
 		status = ctrl_port.inb();
 	} while((status & outb) == 0);
 	//wait for ACK after sending data
-	while((data_port.inb() & kbd_reply::ack) != kbd_reply::ack);
+	while(data_port.inb() == kbd_reply::ack);
 }
 
 // SET_LED: sets or clears the specified LED
@@ -321,7 +321,7 @@ void Keyboard_Controller::set_led(char led, bool on)
 	//send command
 	data_port.outb(kbd_cmd::set_led);
 	//wait for ACK after sending command
-	while((data_port.inb() & kbd_reply::ack) != kbd_reply::ack);
+	while(data_port.inb() == kbd_reply::ack);
 	//set/reset led
 	if(on){
 		leds = leds | led;
@@ -335,5 +335,5 @@ void Keyboard_Controller::set_led(char led, bool on)
 		status = ctrl_port.inb();
 	} while((status & outb) == 0);
 	//wait for ACK after sending data
-	while((data_port.inb() & kbd_reply::ack) != kbd_reply::ack);
+	while(data_port.inb() == kbd_reply::ack);
 }
