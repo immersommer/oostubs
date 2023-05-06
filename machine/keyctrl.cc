@@ -11,7 +11,9 @@
 /* INCLUDES */
 
 #include "machine/keyctrl.h"
+#include "machine/pic.h"
  
+ PIC pic;
 /* STATIC MEMBERS */
 #define DEFAULT_DELAY 3
 #define DEFAULT_SPEED 31
@@ -285,6 +287,12 @@ void Keyboard_Controller::set_repeat_rate(int speed, int delay)
 {
 /* Add your code here */ 
 	int status;
+	bool is_masked = false;
+	//if interrupts are forwarded to the CPU
+	if(!pic.is_masked(PIC::keyboard)){
+		pic.forbid(PIC::keyboard);
+		is_masked = true;
+	}
 	//wait the last command
 	do{
 		status = ctrl_port.inb();
@@ -306,6 +314,10 @@ void Keyboard_Controller::set_repeat_rate(int speed, int delay)
 	} while((status & outb) == 0);
 	//wait for ACK after sending data
 	while(data_port.inb() == kbd_reply::ack);
+	//allow forward
+	if(is_masked){
+		pic.allow(PIC::keyboard);
+	}
 }
 
 // SET_LED: sets or clears the specified LED
@@ -314,6 +326,12 @@ void Keyboard_Controller::set_led(char led, bool on)
 {
 /* Add your code here */ 
 	int status;
+	bool is_masked = false;
+	//if interrupts are forwarded to the CPU
+	if(!pic.is_masked(PIC::keyboard)){
+		pic.forbid(PIC::keyboard);
+		is_masked = true;
+	}
 	//wait the last command
 	do{
 		status = ctrl_port.inb();
@@ -336,4 +354,7 @@ void Keyboard_Controller::set_led(char led, bool on)
 	} while((status & outb) == 0);
 	//wait for ACK after sending data
 	while(data_port.inb() == kbd_reply::ack);
+	if(is_masked){
+		pic.allow(PIC::keyboard);
+	}
 }

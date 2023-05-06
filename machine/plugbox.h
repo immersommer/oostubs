@@ -17,8 +17,16 @@
 class Plugbox {
 public:
 	Plugbox(const Plugbox &copy) = delete; // prevent copying
+	Plugbox ();
+	void assign (unsigned int slot, Gate& gate);
+	Gate& report (unsigned int slot);
+	enum {
+		timer = 32,
+		keyboard = 33
+	};
 private:
 /* Add your code here */ 
+	Gate* gates[64];
 };
 
 #endif
