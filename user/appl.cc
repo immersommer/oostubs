@@ -28,7 +28,7 @@ void Application::action()
     for(;;){
         cpu.disable_int();
         cout.setpos(15, 15);
-        cout << "test";
+        cout << "test" << endl;
         cout.flush();
         cpu.enable_int();
     }

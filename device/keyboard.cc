@@ -32,15 +32,16 @@ void Keyboard::trigger (){
     //For "normal" keys then a non-zero ASCII code exists.
     if(key.ascii() != 0){
         //If Ctrl-Alt-Delete was pressed, spoa reboot should be triggered.
-        if(key.ctrl() & key.alt() & key.scancode() == Key::scan::del)
+        if(key.ctrl() & key.alt() & key.scancode() == Key::scan::del){
             reboot();
-    }else{
-        cout.flush();
-        cout.getpos(x, y);
-        cout.setpos(15, 20);
-        cout << key << endl;
-        cout.flush();
-        cout.setpos(x, y);
+        } else {
+            cout.flush();
+            cout.getpos(x, y);
+            cout.setpos(10, 10);
+            cout << key << endl;
+            cout.flush();
+            cout.setpos(x, y);
+        }       
     }
     
     

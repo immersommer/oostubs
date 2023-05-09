@@ -94,9 +94,10 @@ static void test_interrupt_handling(){
 	Keyboard keyboard;
 	PIC pic;
 	Application application;
+	
 	cpu.enable_int();
+	keyboard.trigger();
 	keyboard.plugin();
-	pic.allow(PIC::keyboard);
 	application.action();
 	for(;;);
 	
