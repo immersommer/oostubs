@@ -240,33 +240,20 @@ Key Keyboard_Controller::key_hit()
 	Key invalid; // not explicitly initialized Key objects are invalid
 /* Add your code here */ 
 	//KEY_DECODED: Return value true means that the key is complete
-	/*bool decoded = false;
-	//char can be used in buffer
-	while(ctrl_port.inb() & outb){
-		code = data_port.inb();
-		decoded = key_decoded();
-	}
-	if(decoded) {
-		return gather;
-	} else{
-		return invalid;
-	}*/
+	
 	int status;
-
+	bool decoded = key_decoded();
+	//char can be used in buffer
 	do{
 		status = ctrl_port.inb();
 	}while((status & outb) == 0); 
 
-	if (status & auxb)
-		return invalid;
-
 	code = data_port.inb();
-	
-	if (key_decoded()) 
+	if(decoded) {
 		return gather;
-	
-	return invalid;
-	
+	} else{
+		return invalid;
+	}
 }
 
 // REBOOT: Reboots the PC. Yes, in a PC the keyboard controller is
