@@ -240,7 +240,7 @@ Key Keyboard_Controller::key_hit()
 	Key invalid; // not explicitly initialized Key objects are invalid
 /* Add your code here */ 
 	//KEY_DECODED: Return value true means that the key is complete
-	bool decoded = false;
+	/*bool decoded = false;
 	//char can be used in buffer
 	while(ctrl_port.inb() & outb){
 		code = data_port.inb();
@@ -250,7 +250,22 @@ Key Keyboard_Controller::key_hit()
 		return gather;
 	} else{
 		return invalid;
-	}
+	}*/
+	int status;
+
+	do{
+		status = ctrl_port.inb();
+	}while((status & outb) == 0); 
+
+	if (status & auxb)
+		return invalid;
+
+	code = data_port.inb();
+	
+	if (key_decoded()) 
+		return gather;
+	
+	return invalid;
 	
 }
 
@@ -304,7 +319,8 @@ void Keyboard_Controller::set_repeat_rate(int speed, int delay)
 		status = ctrl_port.inb();
 	} while((status & outb) == 0);
 	//wait for ACK after sending command
-	while(data_port.inb() == kbd_reply::ack);
+	while ((data_port.inb() & kbd_reply::ack) != kbd_reply::ack);
+	//while(data_port.inb() == kbd_reply::ack);
 	//set parameter
 	//31=11111, 3=11
 	data_port.outb((speed & DEFAULT_SPEED) | (delay & DEFAULT_DELAY) << 5);
@@ -313,7 +329,8 @@ void Keyboard_Controller::set_repeat_rate(int speed, int delay)
 		status = ctrl_port.inb();
 	} while((status & outb) == 0);
 	//wait for ACK after sending data
-	while(data_port.inb() == kbd_reply::ack);
+	while ((data_port.inb() & kbd_reply::ack) != kbd_reply::ack);
+	//while(data_port.inb() == kbd_reply::ack);
 	//allow forward
 	if(is_masked){
 		pic.allow(PIC::keyboard);
@@ -339,7 +356,8 @@ void Keyboard_Controller::set_led(char led, bool on)
 	//send command
 	data_port.outb(kbd_cmd::set_led);
 	//wait for ACK after sending command
-	while(data_port.inb() == kbd_reply::ack);
+	while ((data_port.inb() & kbd_reply::ack) != kbd_reply::ack);
+	//while(data_port.inb() == kbd_reply::ack);
 	//set/reset led
 	if(on){
 		leds = leds | led;
@@ -353,7 +371,8 @@ void Keyboard_Controller::set_led(char led, bool on)
 		status = ctrl_port.inb();
 	} while((status & outb) == 0);
 	//wait for ACK after sending data
-	while(data_port.inb() == kbd_reply::ack);
+	while ((data_port.inb() & kbd_reply::ack) != kbd_reply::ack);
+	//while(data_port.inb() == kbd_reply::ack);
 	if(is_masked){
 		pic.allow(PIC::keyboard);
 	}
