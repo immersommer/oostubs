@@ -14,15 +14,17 @@
 /* INCLUDES */
 
 #include "guard/gate.h"
+#include "machine/cpu.h"
+#include "device/cgastr.h"
 
-class Panic
+class Panic : public Gate
 /* Add your code here */ 
 {
 public:
 	Panic (const Panic &copy) = delete; // prevent copying
 	Panic () {}
 /* Add your code here */ 
- 
+	virtual void trigger() override;
 };
 
 #endif

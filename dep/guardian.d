@@ -1,1 +1,1 @@
-build/guardian.o: guard/guardian.cc
+build/guardian.o: guard/guardian.cc machine/plugbox.h guard/gate.h

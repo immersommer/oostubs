@@ -3,6 +3,11 @@
 #include "device/cgastr.h"
 #include "machine/keyctrl.h"
 
+#include "device/keyboard.h"
+#include "machine/pic.h"
+#include "user/appl.h"
+#include "machine/cpu.h"
+
 #define TEXTLEN 1000
 
 static void get_string(char* str, int size){
@@ -84,10 +89,27 @@ static void test_key_ctrl(){
 
 }
 
+static void test_interrupt_handling(){
+	CPU cpu;
+	Keyboard keyboard;
+	PIC pic;
+	Application application;
+	
+	cpu.enable_int();
+	keyboard.trigger();
+	keyboard.plugin();
+	application.action();
+	for(;;);
+	
+}
+
 int main(){ 
-	test_cga_screen();
+	//test_cga_screen();
 
-	test_cga_stream();
+	//test_cga_stream();
 
-	test_key_ctrl();
+	//test_key_ctrl();
+
+	test_interrupt_handling();
+	return 0;
 }

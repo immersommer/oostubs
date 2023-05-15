@@ -13,6 +13,7 @@
 
 #include "device/cgastr.h"
 
+// output/print the buffer contents of base class Stringbuffer
 void CGA_Stream::flush (){
     if(size){
         print(buffer, size, DEFAULT_ATTRIBUTE);

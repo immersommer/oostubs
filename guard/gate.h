@@ -12,5 +12,11 @@
 #define __Gate_include__
 
 /* Add your code here */ 
+class Gate{
+public:
+    Gate(){}
+    virtual void trigger() = 0;
+    virtual ~Gate(){}
+};
 
 #endif
