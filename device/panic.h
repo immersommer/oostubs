@@ -14,6 +14,8 @@
 /* INCLUDES */
 
 #include "guard/gate.h"
+#include "machine/cpu.h"
+#include "device/cgastr.h"
 
 class Panic : public Gate
 /* Add your code here */ 

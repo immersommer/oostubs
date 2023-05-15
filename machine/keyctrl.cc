@@ -249,6 +249,10 @@ Key Keyboard_Controller::key_hit()
 	}while((status & outb) == 0); 
 
 	code = data_port.inb();
+
+	if(status & auxb)
+		return invalid;
+
 	if(decoded) {
 		return gather;
 	} else{
