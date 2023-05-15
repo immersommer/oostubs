@@ -30,9 +30,9 @@ void Keyboard::trigger (){
     //Only if the method key_hit of the base class Keyboard_Controller returns a valid Key, a complete scan code could be determined.
     Key key = key_hit();
     //For "normal" keys then a non-zero ASCII code exists.
-    if(key.ascii() != 0){
+    if(key.valid()){
         //If Ctrl-Alt-Delete was pressed, spoa reboot should be triggered.
-        if(key.ctrl() & key.alt() & key.scancode() == Key::scan::del){
+        if(key.ctrl() && key.alt() && key.scancode() == Key::scan::del){
             reboot();
         } else {
             cout.flush();
