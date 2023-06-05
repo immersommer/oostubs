@@ -20,6 +20,9 @@
 class Keyboard : public Gate, public Keyboard_Controller
 /* Add your code here */ 
 {
+private:
+	char key_output;
+
 public:
 	Keyboard(const Keyboard &copy) = delete; // prevent copying
 /* Add your code here */ 
@@ -30,7 +33,9 @@ public:
 	void plugin();
 
 /* Add your code here */ 
-	void trigger () override;
+	bool prologue ();
+
+	void epilogue ();
 };
 
 #endif

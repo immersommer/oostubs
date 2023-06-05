@@ -25,26 +25,27 @@ void Keyboard::plugin (){
     pic.allow(PIC::keyboard);
 }
 
-void Keyboard::trigger (){
-    int x, y;
+bool Keyboard::prologue (){
     //Only if the method key_hit of the base class Keyboard_Controller returns a valid Key, a complete scan code could be determined.
     Key key = key_hit();
     //For "normal" keys then a non-zero ASCII code exists.
     if(key.valid()){
         //If Ctrl-Alt-Delete was pressed, spoa reboot should be triggered.
-        if(key.ctrl() && key.alt() && key.scancode() == Key::scan::del){
+        if(key.ctrl() && key.alt() && key.scancode() == Key::scan::del)
             reboot();
-        } else {
-            cout.flush();
-            cout.getpos(x, y);
-            cout.setpos(10, 10);
-            cout << key << endl;
-            cout.flush();
-            cout.setpos(x, y);
-        }       
+        
+        this->key_output = key.ascii();
+        return true;
     }
-    
-    
-
+    return false;
 }
- 
+
+void Keyboard::epilogue (){
+    int x, y;
+    cout.flush();
+    cout.getpos(x, y);
+    cout.setpos(10, 10);
+    cout << key_output << endl;
+    cout.flush();
+    cout.setpos(x, y);
+}  

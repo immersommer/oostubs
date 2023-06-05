@@ -24,7 +24,7 @@ public:
 	Panic (const Panic &copy) = delete; // prevent copying
 	Panic () {}
 /* Add your code here */ 
-	virtual void trigger() override;
+	virtual bool prologue() override;
 };
 
 #endif

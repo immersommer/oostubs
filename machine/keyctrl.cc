@@ -13,7 +13,7 @@
 #include "machine/keyctrl.h"
 #include "machine/pic.h"
  
- PIC pic;
+extern PIC pic;
 /* STATIC MEMBERS */
 #define DEFAULT_DELAY 3
 #define DEFAULT_SPEED 31
