@@ -11,9 +11,11 @@
 
 /* INCLUDES */
 #include "machine/plugbox.h"
+#include "guard/guard.h"
 
 /* FUNCTIONS */
-Plugbox plugbox;
+extern Plugbox plugbox;
+extern Guard guard;
 
 extern "C" void guardian (unsigned int slot);
 
@@ -22,5 +24,10 @@ extern "C" void guardian (unsigned int slot);
 
 void guardian (unsigned int slot)
 {
-    plugbox.report(slot).trigger();
+    /*the corresponding Gate object is determined with the help of the interrupt 
+    number in the global Plugbox object plugbox  and its prologue() method is executed.*/
+    Gate &gate = plugbox.report(slot);
+
+    if(gate.prologue())
+        guard.relay(&gate);
 }

@@ -16,5 +16,13 @@
 #define __Secure_include__
 
 /* Add your code here */ 
+#include "guard/guard.h"
+
+extern Guard guard;
+
+struct Secure{
+    Secure(){guard.enter();}
+    ~Secure(){guard.leave();}
+};
 
 #endif
