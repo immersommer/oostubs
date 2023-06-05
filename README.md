@@ -18,3 +18,10 @@ git add .
 git commit -m "{commit}"
 git push
 ```
+### How to merge the branch
+ merging A branch into B branch
+```
+git checkout B
+git merge A
+git push
+```
