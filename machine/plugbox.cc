@@ -13,7 +13,7 @@
 #include "machine/plugbox.h"
 #include "device/panic.h"
 
-Panic panic;
+extern Panic panic;
 /*In the constructor, the global known Panic object panic is registered for all 
 interrupts and exceptions, which provides a minimal interrupt handling.*/
 Plugbox::Plugbox (){
@@ -26,7 +26,7 @@ Plugbox::Plugbox (){
 //在中断编号槽插入一个处理程序，以Gate对象的形式提供。
 void Plugbox::assign (unsigned int slot, Gate& gate){
     if(slot >= 64){
-        panic.trigger();
+        panic.prologue();
     }
     gates[slot] = &gate;
 }
@@ -34,7 +34,7 @@ void Plugbox::assign (unsigned int slot, Gate& gate){
 //Retrieve the Gate object for the specified slot
 Gate& Plugbox::report (unsigned int slot){
     if(slot >= 64){
-        panic.trigger();
+        panic.prologue();
     }
     return *gates[slot];
 }

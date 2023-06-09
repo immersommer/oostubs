@@ -7,6 +7,8 @@
 #include "machine/pic.h"
 #include "user/appl.h"
 #include "machine/cpu.h"
+#include "guard/guard.h"
+#include "guard/secure.h"
 
 #define TEXTLEN 1000
 
@@ -89,14 +91,19 @@ static void test_key_ctrl(){
 
 }
 
+CPU cpu;
+Keyboard keyboard;
+PIC pic;
+Application application;
+Guard guard;
+Panic panic;
+CGA_Stream cout;
+Plugbox plugbox;
+
 static void test_interrupt_handling(){
-	CPU cpu;
-	Keyboard keyboard;
-	PIC pic;
-	Application application;
+
 	
 	cpu.enable_int();
-	keyboard.trigger();
 	keyboard.plugin();
 	application.action();
 	for(;;);
