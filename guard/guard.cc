@@ -45,6 +45,7 @@ void Guard::relay (Gate* item){
     //the critical section is free, the epilogue is handled immediately
     if(avail()){
         enter();
+        cpu.enable_int();
         item->epilogue();
         leave();
     } else {    
