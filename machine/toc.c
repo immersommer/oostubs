@@ -19,4 +19,14 @@ void toc_settle(struct toc *regs, void *tos,
 		void *object)
 {
 /* Add your code here */ 
+	/*register contents (toc) and stack (tos) must be initialized
+	 so that on the first activation the execution starts with the function kickoff*/
+	//create a stack frame
+	void **stack_pointer = (void **)tos;
+	*(--stack_pointer) = object;//"object" in 7th parameter on the stack
+	*(--stack_pointer) = 0;// (non-existent) caller’s return addr.
+	*(--stack_pointer) = kickoff;//kickoff() address
+
+	//write to stack pointer
+	regs->rsp = stack_pointer;
 }

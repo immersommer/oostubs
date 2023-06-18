@@ -11,14 +11,19 @@
 #ifndef __application_include__
 #define __application_include__
 
-class Application
+#include "device/cgastr.h"
+#include "machine/cpu.h"
+#include "guard/secure.h"
+#include "thread/coroutine.h"
+
+class Application : public Coroutine
  
 {
 
 public:
 	Application (const Application &copy) = delete; // prevent copying
 /* Add your code here */ 
-	Application(){}
+	Application (void* tos): Coroutine(tos){}
 	void action ();
 };
 

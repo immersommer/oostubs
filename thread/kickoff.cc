@@ -13,5 +13,13 @@
 /*****************************************************************************/
 
 #include "thread/kickoff.h"
+#include "thread/coroutine.h"
 /* Add your code here */ 
- 
+extern "C" void kickoff (void *dummy1, void *dummy2, void *dummy3, void *dummy4, void *dummy5, void *dummy6, void* object){
+    //by simply calling the method action() of the coroutine object object found as parameter.
+    Coroutine* object_cpp = (Coroutine*)object;
+    object_cpp->action();
+
+    // it must never terminate
+    for(;;){}
+}

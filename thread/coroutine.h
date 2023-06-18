@@ -23,6 +23,11 @@ class Coroutine {
 public:
 	Coroutine(const Coroutine &copy) = delete; // prevent copying
 /* Add your code here */ 
+	struct toc regs;
+	Coroutine (void* tos);
+	void go ();
+	void resume (Coroutine& next);
+	virtual void action () = 0;
 };
 
 #endif

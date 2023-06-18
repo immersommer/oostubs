@@ -94,18 +94,20 @@ static void test_key_ctrl(){
 CPU cpu;
 Keyboard keyboard;
 PIC pic;
-Application application;
 Guard guard;
 Panic panic;
 CGA_Stream cout;
 Plugbox plugbox;
+
+static char stack_test[1024];
 
 static void test_interrupt_handling(){
 
 	
 	cpu.enable_int();
 	keyboard.plugin();
-	application.action();
+	Application application(stack_test + sizeof(stack_test));
+	application.go();
 	for(;;);
 	
 }

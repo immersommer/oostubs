@@ -11,9 +11,6 @@
 /* INCLUDES */
 
 #include "user/appl.h"
-#include "device/cgastr.h"
-#include "machine/cpu.h"
-#include "guard/secure.h"
 /* Add your code here */ 
 extern CPU cpu;
 /* GLOBAL VARIABLES */
