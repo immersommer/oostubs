@@ -13,6 +13,17 @@
 #ifndef __loop_include__
 #define __loop_include__
 
-/* Add your code here */ 
+#include "thread/entrant.h"
+
+class Loop : public Entrant
+{
+private:
+    int i;
+
+public:
+    Loop (const Loop &copy) = delete;
+    Loop(void* tos, int i): Entrant(tos), i(i){}
+    void action ();
+};
  
 #endif

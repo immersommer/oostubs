@@ -15,15 +15,17 @@
 #include "machine/cpu.h"
 #include "guard/secure.h"
 #include "thread/coroutine.h"
+#include "thread/entrant.h"
+#include "user/loop.h"
 
-class Application : public Coroutine
+class Application : public Entrant
  
 {
 
 public:
 	Application (const Application &copy) = delete; // prevent copying
 /* Add your code here */ 
-	Application (void* tos): Coroutine(tos){}
+	Application (void* tos): Entrant(tos){}
 	void action ();
 };
 

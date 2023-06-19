@@ -9,6 +9,7 @@
 #include "machine/cpu.h"
 #include "guard/guard.h"
 #include "guard/secure.h"
+#include "thread/scheduler.h"
 
 #define TEXTLEN 1000
 
@@ -98,8 +99,9 @@ Guard guard;
 Panic panic;
 CGA_Stream cout;
 Plugbox plugbox;
+Scheduler scheduler;
 
-static char stack_test[1024];
+static char stack_test[2048];
 
 static void test_interrupt_handling(){
 
@@ -107,7 +109,8 @@ static void test_interrupt_handling(){
 	cpu.enable_int();
 	keyboard.plugin();
 	Application application(stack_test + sizeof(stack_test));
-	application.go();
+	scheduler.ready(application);
+	scheduler.schedule();
 	for(;;);
 	
 }

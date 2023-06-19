@@ -35,6 +35,8 @@ Coroutine::Coroutine (void* tos){
 void Coroutine::go (){
     toc_go(&regs);
 }
+
+// The current contents of the non-volatile registers are saved in the toc element and replaced by the values of next (the toc element of the next coroutine)
 void Coroutine::resume (Coroutine& next){
     toc_switch(&regs, &next.regs);
 }
