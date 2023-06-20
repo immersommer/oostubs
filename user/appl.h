@@ -11,14 +11,21 @@
 #ifndef __application_include__
 #define __application_include__
 
-class Application
+#include "device/cgastr.h"
+#include "machine/cpu.h"
+#include "guard/secure.h"
+#include "thread/coroutine.h"
+#include "thread/entrant.h"
+#include "user/loop.h"
+
+class Application : public Entrant
  
 {
 
 public:
 	Application (const Application &copy) = delete; // prevent copying
 /* Add your code here */ 
-	Application(){}
+	Application (void* tos): Entrant(tos){}
 	void action ();
 };
 

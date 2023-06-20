@@ -10,7 +10,25 @@
 /* which thread shall run next.                                              */
 /*****************************************************************************/
 
-/* Add your code here */ 
- 
-/* Add your code here */ 
- 
+#include "user/loop.h"
+#include "thread/scheduler.h"
+#include "device/cgastr.h"
+#include "guard/secure.h"
+
+extern CGA_Stream cout;
+extern Scheduler scheduler;
+
+void Loop::action(){
+    for(;;){
+        {Secure secure; 
+        cout.setpos(40, 15);
+        cout << "I'm Loop" << i << endl;
+        cout.flush();
+        }
+    //removes the first process from the ready list and activates it.
+        if(i == 1)
+            scheduler.exit();
+    //append the currently running process to the end of the ready list and activate the first one.
+        scheduler.resume();
+    }
+}

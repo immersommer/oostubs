@@ -16,11 +16,23 @@
 #define __dispatch_include__
 
 /* Add your code here */ 
+#include "thread/coroutine.h"
 
 class Dispatcher {
+private:
+	Coroutine* life_pointer;
+
 public:
 	Dispatcher(const Dispatcher &copy) = delete; // prevent copying
 /* Add your code here */ 
+//initializes the life pointer with null
+	Dispatcher () : life_pointer(0){}
+	void go (Coroutine& first);
+	void dispatch (Coroutine& next);
+// used to determine which coroutine is currently in control of the processor
+	Coroutine* active (){
+		return life_pointer;
+	}
 };
 
 #endif

@@ -21,5 +21,22 @@
 // extern "C", because they do not conform to C++ name mangling.
 extern "C" {
 /* Add your code here */ 
+    void toc_settle (struct toc* regs, void* tos, void (*kickoff)(void*, void*, void*, void*, void*, void*, void*), void* object);
+    void toc_go (struct toc* regs);
+    void toc_switch (struct toc* regs_now, struct toc* regs_then);
+    void kickoff (void *dummy1, void *dummy2, void *dummy3, void *dummy4, void *dummy5, void *dummy6, void* object);
 }
 /* Add your code here */ 
+// the register values are initialized so that the stack pointer initially points to tos and on first activation execution begins with the kickoff function.
+Coroutine::Coroutine (void* tos){
+    toc_settle(&regs, tos, kickoff, this);
+}
+//the first activation of the first coroutine in the system. Therefore no register values must be saved here.
+void Coroutine::go (){
+    toc_go(&regs);
+}
+
+// The current contents of the non-volatile registers are saved in the toc element and replaced by the values of next (the toc element of the next coroutine)
+void Coroutine::resume (Coroutine& next){
+    toc_switch(&regs, &next.regs);
+}
