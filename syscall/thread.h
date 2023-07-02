@@ -12,15 +12,16 @@
 #define __thread_include__
 
 /* Add your code here */ 
+#include "thread/entrant.h"
  
-class Thread
+class Thread : public Entrant
 /* Add your code here */ 
  
 {
 public:
 	Thread(const Thread &copy) = delete; // prevent copying
 /* Add your code here */ 
- 
+	Thread (void* tos) : Entrant(tos){}
 };
 
 #endif

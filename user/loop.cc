@@ -14,9 +14,10 @@
 #include "thread/scheduler.h"
 #include "device/cgastr.h"
 #include "guard/secure.h"
+#include "syscall/guarded_scheduler.h"
 
 extern CGA_Stream cout;
-extern Scheduler scheduler;
+extern Guarded_Scheduler scheduler;
 
 void Loop::action(){
     for(;;){

@@ -10,6 +10,8 @@
 #include "guard/guard.h"
 #include "guard/secure.h"
 #include "thread/scheduler.h"
+#include "syscall/guarded_scheduler.h"
+#include "device/watch.h"
 
 #define TEXTLEN 1000
 
@@ -99,7 +101,8 @@ Guard guard;
 Panic panic;
 CGA_Stream cout;
 Plugbox plugbox;
-Scheduler scheduler;
+Guarded_Scheduler scheduler;
+Watch watch(1000);
 
 static char stack_test[2048];
 
@@ -115,6 +118,17 @@ static void test_interrupt_handling(){
 	
 }
 
+static void test_time_slice_scheduling(){
+	cpu.enable_int();
+	keyboard.plugin();
+	Application application(stack_test + sizeof(stack_test));
+	scheduler.ready(application);
+	guard.enter();
+	watch.windup();
+	scheduler.schedule();
+	for(;;);
+}
+
 int main(){ 
 	//test_cga_screen();
 
@@ -122,6 +136,9 @@ int main(){
 
 	//test_key_ctrl();
 
-	test_interrupt_handling();
+	//test_interrupt_handling();
+
+	test_time_slice_scheduling();
+
 	return 0;
 }

@@ -18,14 +18,14 @@
 #include "thread/entrant.h"
 #include "user/loop.h"
 
-class Application : public Entrant
+class Application : public Thread
  
 {
 
 public:
 	Application (const Application &copy) = delete; // prevent copying
 /* Add your code here */ 
-	Application (void* tos): Entrant(tos){}
+	Application (void* tos): Thread(tos){}
 	void action ();
 };
 

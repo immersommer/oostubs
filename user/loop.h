@@ -13,16 +13,16 @@
 #ifndef __loop_include__
 #define __loop_include__
 
-#include "thread/entrant.h"
+#include "syscall/thread.h"
 
-class Loop : public Entrant
+class Loop : public Thread
 {
 private:
     int i;
 
 public:
     Loop (const Loop &copy) = delete;
-    Loop(void* tos, int i): Entrant(tos), i(i){}
+    Loop(void* tos, int i): Thread(tos), i(i){}
     void action ();
 };
  
