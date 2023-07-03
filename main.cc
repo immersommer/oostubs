@@ -119,11 +119,13 @@ static void test_interrupt_handling(){
 }
 
 static void test_time_slice_scheduling(){
+	guard.enter();
 	cpu.enable_int();
 	keyboard.plugin();
 	Application application(stack_test + sizeof(stack_test));
-	scheduler.ready(application);
-	guard.enter();
+
+	scheduler.Scheduler::ready(application);
+	
 	watch.windup();
 	scheduler.schedule();
 	for(;;);
